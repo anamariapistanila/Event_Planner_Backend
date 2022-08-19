@@ -1,0 +1,11 @@
+package licenta_backend.utils;
+
+public enum Status {
+    USER_DOSNT_EXISTS,
+    USER_ALREADY_EXISTS,
+    FAILURE,
+    CLIENT_ADDED_SUCCESSFULLY,
+    PLANNER_ADDED_SUCCESSFULLY,
+    ADMIN_ADDED_SUCCESSFULLY
+
+}
