@@ -28,7 +28,8 @@ public class NotificationBuilder {
     }
 
     public static NotificationDTO tonotificationDTOFromUser(Notification notification) {
-        return new NotificationDTO (notification.getId(), notification.getFromUser().getPlanner().getName(), notification.getToUser().getId(),userRepository.findUserByUsername(notification.getFromUser().getUsername()).get().getPlanner().getName(), notification.getMessage(), notification.getCreatedAt(),notification.getRead());
+        return new NotificationDTO (notification.getId(), notification.getFromUser().getPlanner().getName(), notification.getToUser().getId(),userRepository.findUserByUsername(notification.getFromUser().getUsername()).get().getPlanner().getName(), notification.getMessage(), notification.getCreatedAt(),notification.getRead()
+        );
     }
 
     public static Notification  toEntity(NotificationDTO notificationDTO) {

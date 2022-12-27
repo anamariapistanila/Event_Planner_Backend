@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/planner")
@@ -97,7 +98,9 @@ public class PlannerController {
         System.out.print(client.getEmail());
         finalClients.add(client);
     }
-        return new ResponseEntity<>(finalClients, HttpStatus.OK);
+        List<ClientDTO> deduped = finalClients.stream().distinct().collect(Collectors.toList());
+
+        return new ResponseEntity<>(deduped, HttpStatus.OK);
     }
 
 

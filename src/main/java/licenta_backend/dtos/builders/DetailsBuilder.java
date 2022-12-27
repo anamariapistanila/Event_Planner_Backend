@@ -14,12 +14,9 @@ import org.springframework.stereotype.Service;
 @Component
 public class DetailsBuilder {
 
-    private static
-    OurWorkRepository  ourWorkRepository;
 
-    private DetailsBuilder(OurWorkRepository  ourWorkRepository) {
-       this.ourWorkRepository=ourWorkRepository;
-    }
+    public DetailsBuilder(){}
+
 
     public static DetailsDTO todetailsDTO(DetailsEvent details) {
         return new DetailsDTO(details.getId(), details.getDescription(), details.getServices(), details.getId_event());

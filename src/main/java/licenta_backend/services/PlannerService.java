@@ -9,10 +9,7 @@ import licenta_backend.entities.Client;
 import licenta_backend.entities.Client_Planner;
 import licenta_backend.entities.CreateYourEvent;
 import licenta_backend.entities.Planner;
-import licenta_backend.repositories.ClientPlannerRepository;
-import licenta_backend.repositories.ClientRepository;
-import licenta_backend.repositories.CreateYourEventRepository;
-import licenta_backend.repositories.PlannerRepository;
+import licenta_backend.repositories.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +28,7 @@ public class PlannerService {
 
     private final PlannerRepository plannerRepository;
     private final ClientRepository clientRepository;
+    private final UserRepository userRepository;
     private final CreateYourEventRepository createEventRepository;
     private final ClientPlannerRepository clientPlannerRepository;
     private final UserService userService;
@@ -39,8 +37,9 @@ public class PlannerService {
     int id_client=0;
 
     @Autowired
-    public PlannerService(PlannerRepository plannerRepository, ClientRepository clientRepository, CreateYourEventRepository createEventRepository, ClientPlannerRepository clientPlannerRepository, UserService userService, ClientService clientService, CreateYourEventService createService){
+    public PlannerService(PlannerRepository plannerRepository, ClientRepository clientRepository, UserRepository userRepository, CreateYourEventRepository createEventRepository, ClientPlannerRepository clientPlannerRepository, UserService userService, ClientService clientService, CreateYourEventService createService){
         this.clientRepository = clientRepository;
+        this.userRepository = userRepository;
         this.createEventRepository = createEventRepository;
         this.plannerRepository=plannerRepository;
         this.clientPlannerRepository = clientPlannerRepository;
@@ -94,12 +93,13 @@ public class PlannerService {
         dto.setEmail(clientDTO.getEmail());
         dto.setPhone(clientDTO.getPhone());
         dto.setAddress(clientDTO.getAddress());
+        dto.setBirthdate(clientDTO.getBirthdate());
 
 
-        Client e = ClientBuilder.toEntityUpdate(dto);
+        Client e = ClientBuilder.toEntityUpdateProfile(dto);
 
         clientRepository.save(e);
-        return ClientBuilder.toclientUpdateDTO(e);
+        return ClientBuilder.toclientUpdateProfileDTO(e);
     }
 
 
@@ -130,16 +130,17 @@ public class PlannerService {
         return ClientBuilder.toclientUpdateProfileDTO(prosumerOptional.get());
     }
     public void deleteEvent(int id){
-        createEventRepository.deleteById(id);
+        createEventRepository.deleteByIdEvent(id);
+
 
 
     }
 
     public void deleteClient(int id) {
         int id_planner = userService.getIdLogged();
-        List<Client_Planner> clientPlannerList = clientPlannerRepository.findAllClientsForPlanner(id_planner);
 
                 clientPlannerRepository.deleteByIdClient(id,id_planner);
+        userRepository.deleteById(id);
 
 
     }

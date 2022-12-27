@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
-@RequestMapping("/unregistered")
+@RequestMapping("/client")
 public class ClientController {
     private final PlannerService plannerService;
     private final ClientService clientService;

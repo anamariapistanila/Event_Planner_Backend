@@ -44,9 +44,6 @@ public class Planner implements Serializable{
     private String image_path;
 
 
-    @OneToMany(mappedBy = "planner", fetch = FetchType.LAZY)
-    private List<Vendors> vendors;
-
     @OneToMany(mappedBy = "createYourEvent", fetch = FetchType.LAZY)
     private List<CreateYourEvent> events;
 
@@ -56,10 +53,6 @@ public class Planner implements Serializable{
     @OneToOne
     @MapsId
     private Users user;
-
-//    @ManyToMany(fetch = FetchType.LAZY,cascade=CascadeType.MERGE)
-//    @JoinColumn(name = "id_client")
-//    private List<Client> clients;
 
 
     public Planner(){}
@@ -79,5 +72,13 @@ public class Planner implements Serializable{
         this.type_of_planner = type_of_planner;
         this.description = description;
         this.image_path = image_path;
+    }
+
+    public Planner(int id, String name, String email, String phone, String type_of_planner) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.type_of_planner = type_of_planner;
     }
 }

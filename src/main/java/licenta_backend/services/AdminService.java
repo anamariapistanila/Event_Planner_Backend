@@ -6,9 +6,9 @@ import licenta_backend.dtos.builders.ClientBuilder;
 import licenta_backend.dtos.builders.PlannerBuilder;
 import licenta_backend.entities.Client;
 import licenta_backend.entities.Planner;
-import licenta_backend.repositories.AdminRepository;
 import licenta_backend.repositories.ClientRepository;
 import licenta_backend.repositories.PlannerRepository;
+import licenta_backend.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -22,44 +22,43 @@ import java.util.stream.Collectors;
 public class AdminService {
     private final ClientRepository clientRepository;
     private final PlannerRepository plannerRepository;
-    private final UserService userService;
-    private final ClientService clientService;
+    private final UserRepository userRepository;
     private final PlannerService plannerService;
-    private final AdminRepository adminRepository;
     private static final Logger LOGGER = LoggerFactory.getLogger(AdminService.class);
 
-    public AdminService(ClientRepository clientRepository, PlannerRepository plannerRepository, UserService userService, ClientService clientService, PlannerService plannerService, AdminRepository adminRepository) {
+    public AdminService(ClientRepository clientRepository, PlannerRepository plannerRepository, UserRepository userRepository, PlannerService plannerService) {
         this.clientRepository = clientRepository;
         this.plannerRepository = plannerRepository;
-        this.userService = userService;
-        this.clientService = clientService;
+        this.userRepository = userRepository;
         this.plannerService = plannerService;
-        this.adminRepository = adminRepository;
+
     }
 
     public List<ClientDTO> findClients() {
 
         List<Client> clientsList = clientRepository.findAll();
         return clientsList.stream()
-                .map(ClientBuilder::toclientUpdateDTO)
+                .map(ClientBuilder::toclientUpdateProfileDTO)
                 .collect(Collectors.toList());
     }
 
     public List<PlannerDTO> findPlanners() {
         List<Planner> plannersList = plannerRepository.findAll();
         return plannersList.stream()
-                .map(PlannerBuilder::toplannerUpdateDTO)
+                .map(PlannerBuilder::toplannerUpdateAdminDTO)
                 .collect(Collectors.toList());
     }
 
     public void deletePlanner(int id){
+        System.out.println(id);
         plannerRepository.deleteById(id);
-
+        userRepository.deleteById(id);
 
     }
 
     public void deleteClient(int id){
         clientRepository.deleteById(id);
+        userRepository.deleteById(id);
 
 
     }
@@ -70,10 +69,11 @@ public class AdminService {
         dto.setName(plannerDTO.getName());
         dto.setEmail(plannerDTO.getEmail());
         dto.setPhone(plannerDTO.getPhone());
+        dto.setType_of_planner(plannerDTO.getType_of_planner());
 
-        Planner e = PlannerBuilder.toEntity(dto);
+        Planner e = PlannerBuilder.toEntityAdmin(dto);
 
         plannerRepository.save(e);
-        return PlannerBuilder.toplannerDTO(e);
+        return PlannerBuilder.toplannerUpdateAdminDTO(e);
     }
 }

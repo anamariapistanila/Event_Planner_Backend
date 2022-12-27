@@ -29,15 +29,6 @@ public class ClientBuilder {
                 clientDTO.getPhone());
     }
 
-
-    public static Client toEntityUpdate(ClientDTO clientDTO) {
-        return new Client(
-                clientDTO.getId(),
-                clientDTO.getName(),
-                clientDTO.getEmail(),
-                clientDTO.getPhone(),
-                clientDTO.getAddress());
-    }
     public static Client toEntityUpdateProfile(ClientDTO clientDTO) {
         return new Client(
                 clientDTO.getId(),

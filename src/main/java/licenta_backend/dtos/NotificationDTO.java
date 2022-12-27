@@ -25,7 +25,7 @@ public class NotificationDTO {
         this.toUser = toUser;
         this.message = message;
         this.createdAt = createdAt;
-        this.read = read;
+        this.read=read;
     }
 
     public NotificationDTO(int id, String fromUser, Integer toUser, String fromUserName, String message, LocalDateTime createdAt, Boolean read) {
@@ -35,6 +35,6 @@ public class NotificationDTO {
         this.fromUserName = fromUserName;
         this.message = message;
         this.createdAt = createdAt;
-        this.read = read;
+        this.read=read;
     }
 }

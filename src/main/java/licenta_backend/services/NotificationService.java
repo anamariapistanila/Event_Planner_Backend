@@ -17,27 +17,23 @@ import java.util.stream.Collectors;
 public class NotificationService {
     public final NotificationRepository notificationRepository;
 
-    public List<NotificationDTO> getAll() {
-        return notificationRepository.findAll().stream()
-                .map(NotificationBuilder::tonotificationDTO)
-                .collect(Collectors.toList());
-    }
 
-
-    public List<NotificationDTO> getAllByToUser(int userId) {
-        return notificationRepository.findAllByToUser(userId).stream()
+    public List<NotificationDTO> getAllNotificationsByToUser(int userId) {
+        return notificationRepository.findAllNotificationsByToUser(userId).stream()
                 .map(NotificationBuilder::tonotificationDTOFromUser)
                 .collect(Collectors.toList());
     }
-
     @Transactional
     public List<NotificationDTO> update(Integer userId) {
-        List<Notification> notifications = notificationRepository.findAllByToUser(userId);
-        notifications.forEach(notification -> notification.setRead(true));
+        List<Notification> notifications = notificationRepository.findAllNotificationsByToUser(userId);
+        for(Notification not: notifications){
+            not.setRead(true);
+        }
         List<NotificationDTO> dtos = notifications.stream()
                 .map(NotificationBuilder::tonotificationDTO)
                 .collect(Collectors.toList());
         return dtos;
     }
+
 
 }

@@ -41,14 +41,6 @@ public class OurWorkService {
                 .collect(Collectors.toList());
     }
 
-    public OurWorkDTO findOurWorkById(int id) {
-        Optional<OurWorkAdd> prosumerOptional = ourWorkRepository.findById(id);
-        if (!prosumerOptional.isPresent()) {
-            LOGGER.error("Event with id {} was not found in db", id);
-            throw new ResourceNotFoundException(CreateYourEvent.class.getSimpleName() + " with ID: " + id);
-        }
-        return OurWorkBuilder.toeventDTO(prosumerOptional.get());
-    }
 
     public int get_IdWork()
     {

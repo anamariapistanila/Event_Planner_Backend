@@ -19,7 +19,9 @@ public class PlannerBuilder {
         return new PlannerDTO(planner.getId(), planner.getName(), planner.getEmail(), planner.getPhone(),planner.getType_of_planner(), planner.getDescription(), planner.getImage_path());
     }
 
-
+    public static PlannerDTO toplannerUpdateAdminDTO(Planner planner) {
+        return new PlannerDTO(planner.getId(),planner.getName(), planner.getEmail(), planner.getPhone(), planner.getType_of_planner());
+    }
 
     public static Planner toEntity(PlannerDTO plannerDTO) {
         return new Planner(
@@ -27,6 +29,15 @@ public class PlannerBuilder {
                 plannerDTO.getName(),
                 plannerDTO.getEmail(),
                 plannerDTO.getPhone());
+    }
+
+    public static Planner toEntityAdmin(PlannerDTO plannerDTO) {
+        return new Planner(
+                plannerDTO.getId(),
+                plannerDTO.getName(),
+                plannerDTO.getEmail(),
+                plannerDTO.getPhone(),
+                plannerDTO.getType_of_planner());
     }
 
     public static Planner toEntityUpdate(PlannerDTO plannerDTO) {

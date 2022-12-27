@@ -30,19 +30,19 @@ public class NotificationController {
     }
 
     @GetMapping("/subscription")
-    public SseEmitter subsribe() {
+    public SseEmitter subscribe() {
         SseEmitter sseEmitter = new SseEmitter(24 * 60 * 60 * 1000l);
         emitterService.addEmitter(sseEmitter);
         return sseEmitter;
     }
     @GetMapping("/{id}")
     public ResponseEntity<Collection<NotificationDTO>> getNotificationsByToUser(@PathVariable Integer id) {
-        List<NotificationDTO> dtos = notificationService.getAllByToUser(id);
+        List<NotificationDTO> dtos = notificationService.getAllNotificationsByToUser(id);
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<?> send(@PathVariable(required = false) Integer id, @RequestBody NotificationDTO request) {
+    public ResponseEntity<?> sendNotification(@PathVariable(required = false) Integer id, @RequestBody NotificationDTO request) {
         if (id==null) {
             request.setToUser(null);
         }
@@ -54,6 +54,17 @@ public class NotificationController {
         emitterService.pushNotification(request);
         System.out.println(request);
         return ResponseEntity.ok().body(request);
+    }
+    @GetMapping("/count/{id}")
+    public ResponseEntity<Long> getCountNotificationsByToUser(@PathVariable Integer id) {
+        List<NotificationDTO> notifications = notificationService.getAllNotificationsByToUser(id);
+        Long count =  notifications .stream().filter(dto -> dto.getRead() == false).count();
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Collection<NotificationDTO>> updateNotificatons(@PathVariable int id) {
+        List<NotificationDTO> notifications  = notificationService.update(id);
+        return new ResponseEntity<>(notifications , HttpStatus.OK);
     }
 
 

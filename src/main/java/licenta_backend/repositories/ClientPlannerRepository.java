@@ -20,10 +20,5 @@ public interface ClientPlannerRepository extends JpaRepository<Client_Planner, I
             "where o.id_client= :id and o.id_planner= :id_planner")
     void deleteByIdClient(@Param("id") Integer id,int id_planner);
 
-    @Modifying
-    @Query(value = "delete from Client_Planner o \n" +
-            "where o.id= :id+1 and o.id_planner= :id_planner")
-    void deleteEventandClient(@Param("id") Integer id,int id_planner);
-
 
 }

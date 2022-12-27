@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Integer> {
     @Query(value = "SELECT n FROM Notification n where n.toUser.id = :userId")
-    List<Notification> findAllByToUser(@Param("userId") Integer userId);
+    List<Notification> findAllNotificationsByToUser(@Param("userId") Integer userId);
 }

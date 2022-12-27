@@ -87,34 +87,16 @@ public class UserService {
     public int getUser(String username) {
         Users user = userRepository.findByUsername(username);
         id_logged=user.getId();
-       // System.out.println(planner_id_logged);
+
         return user.getId();
     }
 
-    public String getUserName(String username) {
-        Users user = userRepository.findByUsername(username);
-
-         System.out.println( user.getUsername());
-        return user.getUsername();
-    }
     public int getIdLogged(){
 
         return id_logged;
     }
 
-    public String getNameClient(){
 
-       return name;
-    }
-
-    public List<Integer> findAllDetailsForUsers() {
-        List<Users> userList = userRepository.findAll();
-        List<Integer> idList = new ArrayList<>();
-        for(Users u: userList){
-            idList.add(u.getId());
-        }
-        return idList;
-    }
     public Status createAccountClient(UserClientDTO userClientDTO) {
         Users user = UserBuilder.toEntity(userClientDTO.getUserDTO());
         if(verifyUser(user).equals(Status.USER_DOSNT_EXISTS)) {
